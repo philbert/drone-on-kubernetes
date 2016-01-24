@@ -2,32 +2,38 @@
 
 This directory contains an example of the simplest viable Drone deployment
 on [Google Container Engine](https://cloud.google.com/container-engine/).
-We eschew nice things like HTTPS in the name of conciseness.
+We eschew some important things like HTTPS in the name of conciseness.
 
 ## Prep work
 
 There are a few things you'll need to do prior to using these manifests.
 How to do them is beyond the scope of this example, but here's a rough
-run-down:
+run-down (you can do most of this from their web console):
 
 ### Create and format a Disk
 
 * Create a Disk to hold your SQLite DB. This can be pretty small.
-* You'll want to mount it to a Compute Engine instance and format it with
-  ext4. Un-mount and you can destroy the Compute Engine instance you used
+* You'll want to mount the Disk to a Compute Engine instance, then SSH in
+  and ``mkfs.ext4`` the disk to format it.
+* Un-mount the disk and destroy the Compute Engine instance you used
   for the formatting.
 * Take note of the zone you created the disk in. You'll need to make sure
-  that your Container Engine cluster is in the same zone.
+  that your Container Engine cluster (which you are about to create)
+  is in the same zone.
   
 ### Create the Container Engine cluster
 
 In the same zone as your DB Disk, create your GKE cluster. You can start
 with a single node if you'd like.
 
-## Load the manifests
+See the GKE [Getting started guide](https://cloud.google.com/container-engine/docs/before-you-begin)
+for guidance on this.
+
+### Load the manifests
 
 Making sure that your ``kubectl`` client is configured correctly (see the
-GKE docs), load these manifests:
+[GKE docs](https://cloud.google.com/container-engine/docs/before-you-begin)), 
+load these manifests:
 
 ```
 kubectl create -f drone.service.yaml
@@ -57,3 +63,10 @@ kubectl logs -f droneio-a123
 ```
 
 Where ``droneio-a123`` is the pod name.
+
+
+### Stuck? Need help?
+
+We've glossed over quite a few details, for the sake of brevity. If you
+have questions, post them to our [Help!](https://discuss.drone.io/c/help)
+category on the Drone Discussion site.
